@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BottomNavigation</string>
+    <string name="content_description_media">content_description_media</string>
+    <string name="title">card_title</string>
+    <string name="secondary_text">card_secondary_text</string>
+    <string name="supporting_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</string>
+    <string name="card_action">card_action</string>
+    <string name="card_secondary_action">card_action</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_option_favorite_text">Favorite</string>
+    <string name="menu_option_home_text">Pokémon</string>
+    <string name="menu_option_evolution_text">Favourite</string>
+</resources>
