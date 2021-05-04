@@ -30,9 +30,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
 
 //        binding.txtCardTitle.setText(arguments.user.email)?:""
-
     }
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

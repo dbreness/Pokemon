@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bottomnavigation.R
-import com.example.bottomnavigation.databinding.FragmentDetailBinding
-import com.example.bottomnavigation.databinding.FragmentLoginBinding
+import com.example.bottomnavigation.databinding.FragmentMainBinding
 import com.example.bottomnavigation.databinding.PokemonCellBinding
 import com.example.bottomnavigation.models.Pokemon
 import com.squareup.picasso.Picasso
@@ -29,27 +28,25 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
             notifyDataSetChanged()
         }
 
-    inner class PokemonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class PokemonViewHolder(var binding: PokemonCellBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(name: String, imageUrl: String, description: String){
-            txtCellTitle.text = name
-            txtCellDescription.text = description
+            binding.txtCellTitle.text = name
+            binding.txtCellDescription.text = description
+            Picasso.get().load(imageUrl).into(binding.imgCell)
 
             //Se controla el evento del click sobre la celda
-            txtCellTitle.setOnClickListener {
-                txtCellDescription.visibility = if (txtCellDescription.isVisible) View.GONE else View.VISIBLE
+            binding.root.setOnClickListener {
+                binding.txtCellDescription.visibility = if (binding.txtCellDescription.isVisible) View.GONE else View.VISIBLE
 
             }
-            Picasso.get().load(imageUrl).into(imgCell)
         }
     }
 
     //Metodo encargado de inflar el layout/xml en cada celda
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_cell, parent, false)
-        txtCellTitle = view.findViewById(R.id.txtCellTitle)
-        txtCellDescription = view.findViewById(R.id.txtCellDescription)
-        imgCell = view.findViewById(R.id.imgCell)
-        return PokemonViewHolder(view)
+
+        val binding = PokemonCellBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PokemonViewHolder(binding)
     }
 
     //Metodo encargado de pintar datos para cada celda dependiendo se la posicion

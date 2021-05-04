@@ -17,6 +17,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="4"
+        tools:itemCount="8"
         tools:listitem="@layout/pokemon_cell" />
 </androidx.constraintlayout.widget.ConstraintLayout>

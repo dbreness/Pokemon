@@ -9,15 +9,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bottomnavigation.R
-import com.example.bottomnavigation.databinding.FragmentHomeBinding
 import com.example.bottomnavigation.databinding.FragmentMainBinding
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private lateinit var _binding : FragmentMainBinding
+    private var _binding : FragmentMainBinding? = null
     private  val binding get() = _binding!!
-
-//    val arguments : HomeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +32,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.bottomNavigation.setupWithNavController(navController)
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

@@ -14,7 +14,7 @@ import com.example.bottomnavigation.models.User
 
 class HomeFragment: Fragment(R.layout.fragment_home) {
 
-    private lateinit var _binding : FragmentHomeBinding
+    private var _binding : FragmentHomeBinding? = null
     private  val binding get() = _binding!!
 
 //    val arguments : HomeFragmentArgs by navArgs()
@@ -38,6 +38,11 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
 //            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(User("test@gmail.com","12345"))
 //            findNavController().navigate(action)
 //        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
