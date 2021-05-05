@@ -17,9 +17,6 @@ import com.squareup.picasso.Picasso
 
 class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 
-    private lateinit var txtCellTitle : TextView
-    private lateinit var txtCellDescription : TextView
-    private lateinit var imgCell : ImageView
 
     //Se crea el set para la lista qe va a alimentar el adapter(datasource)
      var pokemones: List<Pokemon> = emptyList()
@@ -28,17 +25,18 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
             notifyDataSetChanged()
         }
 
-    inner class PokemonViewHolder(var binding: PokemonCellBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class PokemonViewHolder(private val binding: PokemonCellBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(name: String, imageUrl: String, description: String){
             binding.txtCellTitle.text = name
             binding.txtCellDescription.text = description
-            Picasso.get().load(imageUrl).into(binding.imgCell)
+
 
             //Se controla el evento del click sobre la celda
             binding.root.setOnClickListener {
                 binding.txtCellDescription.visibility = if (binding.txtCellDescription.isVisible) View.GONE else View.VISIBLE
 
             }
+            Picasso.get().load(imageUrl).into(binding.imgCell)
         }
     }
 

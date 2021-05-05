@@ -38,9 +38,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private fun getPokemons(): List<Pokemon>{
         return mutableListOf(
-            Pokemon("Carlos Rodriguez","https://pngimg.com/uploads/pokemon/pokemon_PNG72.png", "Alajuela"),
-            Pokemon("Miguel Solano","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLelt2ZEdkMwAt44gDvitHSrneE3NshMYDiw&usqp=CAU","Heredia"),
-            Pokemon("Juan Bustos","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuSUq6XNdmtTLkeEsFxPqoL_9V40NiW-Xq7Q&usqp=CAU","San Jose"),
+            Pokemon("Squirtle","https://pngimg.com/uploads/pokemon/pokemon_PNG72.png", "Water"),
+            Pokemon("Jolteon","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLelt2ZEdkMwAt44gDvitHSrneE3NshMYDiw&usqp=CAU","Electric"),
+            Pokemon("Charmander","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuSUq6XNdmtTLkeEsFxPqoL_9V40NiW-Xq7Q&usqp=CAU","Fire"),
         )
     }
 
