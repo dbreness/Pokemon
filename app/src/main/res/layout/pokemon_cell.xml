@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imgCell"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgCell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgCell"
-        app:layout_constraintTop_toTopOf="@+id/imgCell" />
+        app:layout_constraintTop_toTopOf="@+id/imgCell"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
     <TextView
         android:id="@+id/txtCellDescription"
@@ -39,6 +40,9 @@
         app:layout_constraintEnd_toEndOf="@+id/txtCellTitle"
         app:layout_constraintStart_toStartOf="@+id/imgCell"
         app:layout_constraintTop_toBottomOf="@+id/imgCell"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
