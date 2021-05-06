@@ -1,6 +1,7 @@
 package com.example.bottomnavigation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,11 @@ import com.example.bottomnavigation.databinding.FragmentListBinding
 import com.example.bottomnavigation.models.Pokemon
 import com.example.bottomnavigation.models.PokemonDetail
 import com.example.bottomnavigation.viewmodels.PokemonListViewModel
+import com.jakewharton.rxbinding4.widget.queryTextChanges
+import com.jakewharton.rxbinding4.widget.textChanges
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class ListFragment : Fragment(R.layout.fragment_list) {
 
@@ -23,6 +29,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private var _binding : FragmentListBinding? = null
     private val binding  get() = _binding!!
+
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +57,30 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         viewModel.getPokemonList().observe(viewLifecycleOwner){
             adapter.pokemons = it
+            adapter.pokemonsList = it
         }
 
-        binding.PokemonRecyclerView.setOnClickListener(){
-            
-        }
+/*        binding.searchBox.textChanges()
+                .subscribe{
+
+                }*/
+
+        //EVENTOS RX
+        disposable.add(
+            binding.searchView.queryTextChanges()
+                .skipInitialValue()
+                .debounce(300,TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    Log.d("queryTextChanges", "query: " + it)
+                    adapter.filter.filter(it.toString())
+                }
+            )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        disposable.clear()
         _binding = null
     }
 

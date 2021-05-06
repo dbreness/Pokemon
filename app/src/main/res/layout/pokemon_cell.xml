@@ -28,8 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgCell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgCell"
-        app:layout_constraintTop_toTopOf="@+id/imgCell"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+        app:layout_constraintTop_toTopOf="@+id/imgCell"/>
 
     <TextView
         android:id="@+id/txtCellDescription"

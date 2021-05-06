@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -20,7 +22,7 @@ import com.example.bottomnavigation.viewmodels.PokemonListViewModel
 import com.squareup.picasso.Picasso
 import retrofit2.http.Url
 
-class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
+class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(), Filterable {
 
     //Se crea el set para la lista qe va a alimentar el adapter(datasource)
 /*
@@ -31,11 +33,14 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
         }
 */
 
+    var pokemonsList: List<PokemonReference> = emptyList()
+    var pokemonsListFilter: List<PokemonReference> = emptyList()
     var pokemons: List<PokemonReference> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
 
     lateinit var pokemonDetail: PokemonDetail
 
@@ -80,4 +85,31 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
     }
     //Metodo que determina la cantidad de elementos  en la lista
     override fun getItemCount(): Int = pokemons.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    pokemonsListFilter = pokemonsList
+                } else {
+                    val resultList = ArrayList<PokemonReference>()
+                    for (row in pokemonsList) {
+                        if (row.name.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            resultList.add(row)
+                        }
+                    }
+                    pokemonsListFilter = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = pokemonsListFilter
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                pokemons = results?.values as List<PokemonReference>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

@@ -29,7 +29,7 @@ class PokemonListViewModel:ViewModel (){
     }
 
     fun makeAPIRequest(){
-        service.getPokemonList(100,0).enqueue(object: Callback<PokemonListResponse>{
+        service.getPokemonList(1118,0).enqueue(object: Callback<PokemonListResponse>{
             override fun onResponse(
                 call: Call<PokemonListResponse>,
                 response: Response<PokemonListResponse>
