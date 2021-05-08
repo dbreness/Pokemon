@@ -14,9 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class PokemonListViewModel:ViewModel (){
 
     private val pokemonList = MutableLiveData<List<PokemonReference>>()
-    private val pokemonDetail = MutableLiveData<PokemonDetail>()
-    private val pokemon = MutableLiveData<Pokemon>()
-    private val pokemonSpecie = MutableLiveData<PokemonSpecie>()
     private var service: APIService
 
     init {
@@ -42,55 +39,10 @@ class PokemonListViewModel:ViewModel (){
             override fun onFailure(call: Call<PokemonListResponse>, t: Throwable) {
 
             }
-
-        })
-    }
-
-    fun makeAPIRequestDetail(name: String){
-        service.getPokemonDetail(name).enqueue(object: Callback<Pokemon>{
-            override fun onResponse(
-                call: Call<Pokemon>,
-                response: Response<Pokemon>)
-            {
-                response.body()?.let {
-                    pokemon.postValue(it)
-
-                }
-            }
-
-            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
-            }
-
-        })
-    }
-
-    fun makeAPIRequestSpecies(name: String){
-        service.getPokemonSpeciesDetail(name).enqueue(object: Callback<PokemonSpecie>{
-            override fun onResponse(
-                call: Call<PokemonSpecie>,
-                response: Response<PokemonSpecie>)
-            {
-                response.body()?.let {
-                    pokemonSpecie.postValue(it)
-
-                }
-            }
-
-            override fun onFailure(call: Call<PokemonSpecie>, t: Throwable) {
-            }
-
         })
     }
 
     fun getPokemonList():LiveData<List<PokemonReference>>{
         return pokemonList
-    }
-
-    fun getPokemonDetail():LiveData<Pokemon>{
-        return pokemon
-    }
-
-    fun getPokemonSpecie():LiveData<PokemonSpecie>{
-        return pokemonSpecie
     }
 }
