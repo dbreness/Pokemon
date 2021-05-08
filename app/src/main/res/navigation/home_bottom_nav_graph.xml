@@ -8,12 +8,22 @@
         android:id="@+id/detailFragment2"
         android:name="com.example.bottomnavigation.fragments.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.bottomnavigation.fragments.ListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment2"
+            app:destination="@id/detailFragment2"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment2"
         android:name="com.example.bottomnavigation.fragments.HomeFragment"

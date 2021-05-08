@@ -3,13 +3,13 @@
     <item
         android:id="@+id/listFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_star_24"
-        android:title="@string/menu_option_favorite_text"/>
-    <item
-        android:id="@+id/detailFragment2"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_catching_pokemon_24"
         android:title="@string/menu_option_home_text"/>
+    <item
+        android:id="@+id/favoritesFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="@string/menu_option_favorite_text"/>
     <item
         android:id="@+id/homeFragment2"
         android:enabled="true"

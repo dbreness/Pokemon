@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavArgument
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.example.bottomnavigation.R
@@ -35,7 +38,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.makeAPIRequest()
+        viewModel.makeAPIRequestList()
     }
 
     override fun onCreateView(
@@ -72,7 +75,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .debounce(300,TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
-                    Log.d("queryTextChanges", "query: " + it)
+                    //Log.d("queryTextChanges", "query: " + it)
                     adapter.filter.filter(it.toString())
                 }
             )
@@ -80,8 +83,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         disposable.clear()
         _binding = null
     }
+
+
 
 }

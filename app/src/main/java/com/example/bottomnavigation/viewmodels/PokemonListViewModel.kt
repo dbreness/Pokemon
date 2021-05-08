@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bottomnavigation.api.APIService
-import com.example.bottomnavigation.models.PokemonDetail
-import com.example.bottomnavigation.models.PokemonListResponse
-import com.example.bottomnavigation.models.PokemonReference
+import com.example.bottomnavigation.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +15,8 @@ class PokemonListViewModel:ViewModel (){
 
     private val pokemonList = MutableLiveData<List<PokemonReference>>()
     private val pokemonDetail = MutableLiveData<PokemonDetail>()
+    private val pokemon = MutableLiveData<Pokemon>()
+    private val pokemonSpecie = MutableLiveData<PokemonSpecie>()
     private var service: APIService
 
     init {
@@ -28,7 +28,7 @@ class PokemonListViewModel:ViewModel (){
         service = retrofit.create(APIService::class.java)
     }
 
-    fun makeAPIRequest(){
+    fun makeAPIRequestList(){
         service.getPokemonList(1118,0).enqueue(object: Callback<PokemonListResponse>{
             override fun onResponse(
                 call: Call<PokemonListResponse>,
@@ -46,24 +46,51 @@ class PokemonListViewModel:ViewModel (){
         })
     }
 
-/*    fun makeAPIDetailRequest(id:Int){
-        service.getPokemonDetail(id).enqueue(object: Callback<PokemonDetail>{
+    fun makeAPIRequestDetail(name: String){
+        service.getPokemonDetail(name).enqueue(object: Callback<Pokemon>{
             override fun onResponse(
-                call: Call<PokemonDetail>,
-                response: Response<PokemonDetail>
-            ) {
+                call: Call<Pokemon>,
+                response: Response<Pokemon>)
+            {
                 response.body()?.let {
-                    pokemonDetail.postValue(it)
+                    pokemon.postValue(it)
+
                 }
             }
 
-            override fun onFailure(call: Call<PokemonDetail>, t: Throwable) {
+            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
             }
 
         })
-    }*/
+    }
+
+    fun makeAPIRequestSpecies(name: String){
+        service.getPokemonSpeciesDetail(name).enqueue(object: Callback<PokemonSpecie>{
+            override fun onResponse(
+                call: Call<PokemonSpecie>,
+                response: Response<PokemonSpecie>)
+            {
+                response.body()?.let {
+                    pokemonSpecie.postValue(it)
+
+                }
+            }
+
+            override fun onFailure(call: Call<PokemonSpecie>, t: Throwable) {
+            }
+
+        })
+    }
 
     fun getPokemonList():LiveData<List<PokemonReference>>{
         return pokemonList
+    }
+
+    fun getPokemonDetail():LiveData<Pokemon>{
+        return pokemon
+    }
+
+    fun getPokemonSpecie():LiveData<PokemonSpecie>{
+        return pokemonSpecie
     }
 }

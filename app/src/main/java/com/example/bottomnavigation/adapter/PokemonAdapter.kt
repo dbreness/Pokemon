@@ -1,5 +1,6 @@
 package com.example.bottomnavigation.adapter
 
+import android.app.Activity
 import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +12,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.databinding.FragmentMainBinding
 import com.example.bottomnavigation.databinding.PokemonCellBinding
+import com.example.bottomnavigation.fragments.ListFragment
+import com.example.bottomnavigation.fragments.ListFragmentDirections
+import com.example.bottomnavigation.fragments.LoginFragmentDirections
 import com.example.bottomnavigation.models.Pokemon
 import com.example.bottomnavigation.models.PokemonDetail
 import com.example.bottomnavigation.models.PokemonReference
@@ -32,7 +41,6 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
             notifyDataSetChanged()
         }
 */
-
     var pokemonsList: List<PokemonReference> = emptyList()
     var pokemonsListFilter: List<PokemonReference> = emptyList()
     var pokemons: List<PokemonReference> = emptyList()
@@ -54,7 +62,11 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
 
             //Se controla el evento del click sobre la celda
             binding.root.setOnClickListener {
-                binding.txtCellDescription.visibility = if (binding.txtCellDescription.isVisible) View.GONE else View.VISIBLE
+                //binding.txtCellDescription.visibility = if (binding.txtCellDescription.isVisible) View.GONE else View.VISIBLE
+                val NavController = Navigation.findNavController(itemView)
+
+                val action = ListFragmentDirections.actionListFragmentToDetailFragment2(name)
+                NavController.navigate(action)
 
             }
 
