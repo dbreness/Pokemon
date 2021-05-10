@@ -4,16 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bottomnavigation.databinding.PokemonCellBinding
-import com.example.bottomnavigation.fragments.ListFragmentDirections
 import com.example.bottomnavigation.models.PokemonReference
 import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlin.collections.ArrayList
 
 
 class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(), Filterable {
 
+
+    private val clicksAcceptor = PublishSubject.create<PokemonReference>()
+
+    val onItemClicked: Observable<PokemonReference> = clicksAcceptor.hide()
 
     var pokemonsList: List<PokemonReference> = emptyList()
     var pokemonsListFilter: List<PokemonReference> = emptyList()
@@ -24,22 +29,17 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
         }
 
     inner class PokemonViewHolder(private val binding: PokemonCellBinding) : RecyclerView.ViewHolder(binding.root){
-
         fun bind(pokemon:PokemonReference){
-
             binding.txtCellName.text = pokemon.name
 
-            //Se controla el evento del click sobre la celda
-            binding.root.setOnClickListener {
+            val pokemonId = pokemon.url.dropLast(1).split("/").last().toString()
+            val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png"
+            Picasso.get().load(imageUrl).into(binding.imgCell)
 
-                val navController = Navigation.findNavController(binding.root)
-                val action = ListFragmentDirections.actionListFragmentToDetailFragment2(pokemon.name)
-                navController.navigate(action)
+            //Evento RX para controlar click sobre las celdas
+            binding.root.setOnClickListener{
+                clicksAcceptor.onNext(pokemon)
             }
-
-            val s = pokemon.url.dropLast(1).split("/").last().toString()
-            val x = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+s+".png"
-            Picasso.get().load(x).into(binding.imgCell)
         }
     }
 

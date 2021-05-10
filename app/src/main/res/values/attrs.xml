@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmptyView">
+        <attr name="textInformation" format="string"/>
+        <attr name="imageInformationUrl" format="string"/>
+    </declare-styleable>
+</resources>
