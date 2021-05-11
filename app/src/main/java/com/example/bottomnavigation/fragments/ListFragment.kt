@@ -1,9 +1,12 @@
 package com.example.bottomnavigation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -65,7 +68,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .map { it.toString() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
-                    adapter.filter.filter(it)
+                    adapter.filter.filter(it, object:Filter.FilterListener{
+                        override fun onFilterComplete(count: Int) {
+                            binding.listEmpty.isVisible = (adapter.itemCount == 0)
+                        }
+                    })
                 }
         )
 
@@ -77,6 +84,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     findNavController().navigate(action)
                 }
         )
+
     }
 
     override fun onDestroyView() {
