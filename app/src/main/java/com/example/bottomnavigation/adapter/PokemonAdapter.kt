@@ -40,6 +40,7 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
             binding.root.setOnClickListener{
                 clicksAcceptor.onNext(pokemon)
             }
+
         }
     }
 
