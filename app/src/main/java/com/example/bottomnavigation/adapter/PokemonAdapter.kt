@@ -37,7 +37,7 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
             Picasso.get().load(imageUrl).into(binding.imgCell)
 
             //Evento RX para controlar click sobre las celdas
-            binding.root.setOnClickListener{
+            binding.detailsButton.setOnClickListener{
                 clicksAcceptor.onNext(pokemon)
             }
 
