@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,8 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
         tools:itemCount="8"
-        tools:listitem="@layout/pokemon_cell"
-        tools:visibility="invisible" />
+        tools:listitem="@layout/pokemon_cell"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
@@ -39,6 +37,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchInputEditText"
             android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             android:imeOptions="actionDone"
@@ -49,14 +48,13 @@
         android:id="@+id/listEmpty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/PokemonRecyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PokemonRecyclerView"
-        app:textInformation="No se encontraron resultados"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toStartOf="@+id/PokemonRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+        app:textInformation="@string/widgetTitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

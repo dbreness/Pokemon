@@ -23,17 +23,12 @@ class EmptyView @JvmOverloads constructor(
         val typedArray = context.theme.obtainStyledAttributes(
                 attrs,
                 R.styleable.EmptyView,
-                defStyleAttr, defStyleRes
+                defStyleAttr,
+                defStyleRes
         )
 
         binding.textView.text = typedArray.getString(R.styleable.EmptyView_textInformation)
-//        var uri = R.styleable.EmptyView_imageInformationUrl
-//        Picasso.get().load(uri).into(binding.imageView)
-
-
-//        binding.callButton.setOnClickListener {
-//            buttonTapped?.invoke()
-//        }
+//        Picasso.get().load(typedArray.getString(R.styleable.EmptyView_imageInformationUrl)).into(binding.imageView)
 
         typedArray.recycle()
     }
