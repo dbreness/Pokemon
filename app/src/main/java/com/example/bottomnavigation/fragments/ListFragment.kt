@@ -222,11 +222,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .map { it.toString() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    adapter.filter.filter(it, object : Filter.FilterListener {
-                        override fun onFilterComplete(count: Int) {
-                            binding.listEmpty.visibility = if (adapter.itemCount == 0) VISIBLE else GONE
-                        }
-                    }
+                    adapter.filter.filter(it) { binding.listEmpty.visibility = if (adapter.itemCount == 0) VISIBLE else GONE }
                 }
         )
 

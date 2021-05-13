@@ -48,13 +48,13 @@
         android:id="@+id/listEmpty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/PokemonRecyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/PokemonRecyclerView"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
-        app:textInformation="@string/widgetTitle"/>
+        app:textInformation="@string/widgetTitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
