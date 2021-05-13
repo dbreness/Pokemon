@@ -16,4 +16,5 @@
     <string name="buttonText">Go</string>
     <string name="txtTitleDummy">In process</string>
     <string name="search_hint">Buscar</string>
+    <string name="widgetTitle">No se encontraron resultados</string>
 </resources>

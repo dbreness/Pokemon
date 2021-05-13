@@ -17,7 +17,6 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>(),
 
 
     private val clicksAcceptor = PublishSubject.create<PokemonReference>()
-
     val onItemClicked: Observable<PokemonReference> = clicksAcceptor.hide()
 
     var pokemonsList: List<PokemonReference> = emptyList()

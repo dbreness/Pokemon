@@ -68,11 +68,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .map { it.toString() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
-                    adapter.filter.filter(it, object:Filter.FilterListener{
-                        override fun onFilterComplete(count: Int) {
-                            binding.listEmpty.isVisible = (adapter.itemCount == 0)
+                    adapter.filter.filter(it) {
+                        viewModel.getPokemonList().observe(viewLifecycleOwner){
+                            binding.listEmpty.visibility = if(adapter.pokemons.isEmpty()) View.VISIBLE else View.GONE
                         }
-                    })
+                    }
                 }
         )
 

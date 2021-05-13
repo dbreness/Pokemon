@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
+            android:backgroundTint="@color/white"
             android:inputType="textEmailAddress"
             android:hint="@string/hintEmailText" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
+            android:backgroundTint="@color/white"
             android:inputType="textPassword"
             android:hint="@string/hintPasswordText" />
     </com.google.android.material.textfield.TextInputLayout>
