@@ -1,9 +1,6 @@
 package com.example.bottomnavigation.api
 
-import com.example.bottomnavigation.models.Pokemon
-import com.example.bottomnavigation.models.PokemonDetail
-import com.example.bottomnavigation.models.PokemonListResponse
-import com.example.bottomnavigation.models.PokemonSpecie
+import com.example.bottomnavigation.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,4 +20,9 @@ interface APIService {
     fun getPokemonSpeciesDetail(
         @Path("name") name:String
     ):Call<PokemonSpecie>
+
+    @GET("evolution-chain/{id}")
+    fun getPokemonEvolutionChain(
+        @Path("id") id:String
+    ):Call<EvolutionChainResponse>
 }

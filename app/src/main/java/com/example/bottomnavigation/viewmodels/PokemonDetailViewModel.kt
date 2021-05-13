@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.bottomnavigation.api.APIService
+import com.example.bottomnavigation.models.EvolutionChain
+import com.example.bottomnavigation.models.EvolutionChainResponse
 import com.example.bottomnavigation.models.Pokemon
 import com.example.bottomnavigation.models.PokemonSpecie
 import retrofit2.Call
@@ -17,6 +19,7 @@ class PokemonDetailViewModel : ViewModel() {
     private val service : APIService
     private val pokemon = MutableLiveData<Pokemon>()
     private val pokemonSpecie = MutableLiveData<PokemonSpecie>()
+    private val evolutionChain = MutableLiveData<EvolutionChainResponse>()
 
 
     init {
@@ -59,11 +62,32 @@ class PokemonDetailViewModel : ViewModel() {
         })
     }
 
+    fun makeAPIRequestEvolutionChain(id: String){
+        service.getPokemonEvolutionChain(id).enqueue(object: Callback<EvolutionChainResponse>{
+            override fun onResponse(
+                call: Call<EvolutionChainResponse>,
+                response: Response<EvolutionChainResponse>
+            ) {
+                response.body()?.let {
+                    evolutionChain.postValue(it)
+                }
+            }
+
+            override fun onFailure(call: Call<EvolutionChainResponse>, t: Throwable) {
+            }
+
+        })
+    }
+
     fun getPokemonDetail():LiveData<Pokemon>{
         return pokemon
     }
 
     fun getPokemonSpecie():LiveData<PokemonSpecie>{
         return pokemonSpecie
+    }
+
+    fun getEvolutionChain():LiveData<EvolutionChainResponse>{
+        return evolutionChain
     }
 }
