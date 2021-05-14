@@ -1,6 +1,8 @@
 package com.example.bottomnavigation.fragments
 
 
+import android.database.Observable
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,10 +20,13 @@ import com.example.bottomnavigation.databinding.FragmentDetailBinding
 import com.example.bottomnavigation.extensions.mapToDrawable
 import com.example.bottomnavigation.models.EvolutionChain
 import com.example.bottomnavigation.models.EvolutionChainResponse
+import com.example.bottomnavigation.viewmodels.PokemonDBViewModel
 import com.example.bottomnavigation.viewmodels.PokemonDetailViewModel
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.itemClicks
 import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -29,9 +34,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val arguments : DetailFragmentArgs by navArgs()
 
     private val viewMoleDetail : PokemonDetailViewModel by viewModels()
+    private val dbViewModel: PokemonDBViewModel by viewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +62,25 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var url : String = "https://pokeapi.co/api/v2/pokemon/"
+
+
+        dbViewModel.getPokemon(arguments.name).observe(viewLifecycleOwner){
+            if (it.size == 0)
+                binding.favButton.setImageResource(android.R.drawable.btn_star_big_off)
+            else
+                binding.favButton.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+
         // suscribirse al evento que retorna la informacion de un Pokemon especifico
         viewMoleDetail.getPokemonDetail().observe(viewLifecycleOwner) {
             binding.txtCardTitle.text = it.name.capitalize()
+            url = url + it.id.toString() + "/"
             val x =
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + it.id + ".png"
             Picasso.get().load(x).into(binding.imgCardImage)
+
+
         }
 
         viewMoleDetail.getPokemonSpecie().observe(viewLifecycleOwner) {
@@ -106,6 +127,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 val action = DetailFragmentDirections.actionDetailFragment2Self(name.decapitalize())
                 findNavController().navigate(action)
             }
+
+        binding.favButton.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                dbViewModel.addPokemon(binding.txtCardTitle.text.toString().decapitalize(), url)
+             }
+
 
 
     }

@@ -1,38 +1,22 @@
 package com.example.bottomnavigation.fragments
 
-import android.graphics.*
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
-import android.text.Layout
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Filter
-import android.widget.ImageButton
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.isVisible
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.*
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.adapter.PokemonAdapter
 import com.example.bottomnavigation.databinding.FragmentListBinding
-import com.example.bottomnavigation.databinding.PokemonCellBinding
-import com.example.bottomnavigation.models.PokemonReference
 import com.example.bottomnavigation.viewmodels.PokemonDBViewModel
 import com.example.bottomnavigation.viewmodels.PokemonListViewModel
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -43,24 +27,22 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
-
-class ListFragment : Fragment(R.layout.fragment_list) {
+class FavoritesFragment: Fragment(R.layout.fragment_list) {
 
     private val adapter = PokemonAdapter()
-    private val viewModel: PokemonListViewModel by viewModels()
-    private val dbViewModel: PokemonDBViewModel by viewModels()
+    private val viewModel: PokemonDBViewModel by viewModels()
 
     private var _binding : FragmentListBinding? = null
     private val binding  get() = _binding!!
 
     private val disposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+ /*   override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //Llamado al servidor
         viewModel.makeAPIRequestList()
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +53,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         binding.PokemonRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
-                VERTICAL
+                RecyclerView.VERTICAL
             )
         )
 
@@ -87,7 +69,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                return makeMovementFlags(0, SCROLL_INDICATOR_RIGHT)
+                return makeMovementFlags(0, RecyclerView.SCROLL_INDICATOR_RIGHT)
             }
 
             override fun onMove(
@@ -97,7 +79,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
             }
 
             override fun clearView(
@@ -133,14 +114,13 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                if (actionState == ACTION_STATE_SWIPE) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     val view = getView(viewHolder)
                     val isClamped = getTag(viewHolder)
                     val x = clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
 
                     currentDx = x
                     getDefaultUIUtil().onDraw(c, recyclerView, view, x, dY, actionState, isCurrentlyActive)
-
                 }
 
 
@@ -210,10 +190,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             }
         }
 
-        dbViewModel.getPokemonList().observe(viewLifecycleOwner){
-            adapter.pokemonsFavorites = it
-        }
-
         return binding.root
     }
 
@@ -222,10 +198,13 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         binding.PokemonRecyclerView.adapter = adapter
 
+
         viewModel.getPokemonList().observe(viewLifecycleOwner){
             adapter.pokemons = it
             adapter.pokemonsList = it
+            adapter.pokemonsFavorites = it
         }
+
         //Suscribirse al evento para la busqueda al escribir sobre inputEditText
         disposable.add(
             binding.searchInputEditText.textChanges()
@@ -234,15 +213,15 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .map { it.toString() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    adapter.filter.filter(it) { binding.listEmpty.visibility = if (adapter.itemCount == 0) VISIBLE else GONE }
+                    adapter.filter.filter(it) { binding.listEmpty.visibility = if (adapter.itemCount == 0) RecyclerView.VISIBLE else RecyclerView.GONE }
                 }
         )
 
         //Suscribirse al evento del click sobre la celda de la lista de pokemons
         disposable.add(
             adapter.onItemClicked
-                 .subscribe {
-                    val action = ListFragmentDirections.actionListFragmentToDetailFragment2(it.name)
+                .subscribe {
+                    val action = FavoritesFragmentDirections.actionFavoritesFragment2ToDetailFragment2(it.name)
                     findNavController().navigate(action)
                 }
         )
@@ -252,9 +231,10 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    dbViewModel.addPokemon(it.name, it.url)
+                    viewModel.addPokemon(it.name, it.url)
                 }
         )
+
 
     }
 
