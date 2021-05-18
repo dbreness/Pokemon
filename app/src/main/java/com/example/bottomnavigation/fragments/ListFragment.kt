@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import androidx.transition.TransitionInflater
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.adapter.PokemonAdapter
 import com.example.bottomnavigation.databinding.FragmentListBinding
@@ -57,9 +58,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         //Llamado al servidor
         viewModel.makeAPIRequestList()
+
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
     }
 
     override fun onCreateView(
@@ -74,6 +77,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                 VERTICAL
             )
         )
+
+        binding.progressBar.visibility = VISIBLE
 
         //Clase para el manejo del swipe de la celda
         class SwipeHelperCallBack : ItemTouchHelper.Callback() {
@@ -225,6 +230,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         viewModel.getPokemonList().observe(viewLifecycleOwner){
             adapter.pokemons = it
             adapter.pokemonsList = it
+            binding.progressBar.visibility = GONE
         }
         //Suscribirse al evento para la busqueda al escribir sobre inputEditText
         disposable.add(

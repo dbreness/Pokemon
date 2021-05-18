@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.databinding.FragmentDetailBinding
 import com.example.bottomnavigation.extensions.mapToDrawable
@@ -27,6 +28,9 @@ import com.jakewharton.rxbinding4.widget.itemClicks
 import com.squareup.picasso.Picasso
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import com.bumptech.glide.Glide
+import android.os.Handler
+import android.os.Looper
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -48,6 +52,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewMoleDetail.makeAPIRequestDetail(arguments.name)
         viewMoleDetail.makeAPIRequestSpecies(arguments.name)
 
+
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.slide)
     }
 
     override fun onCreateView(
@@ -55,12 +62,15 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Glide.with(this).load(R.drawable.animated_pokeball).into(binding.imgCardImage)
 
         var url : String = "https://pokeapi.co/api/v2/pokemon/"
 
@@ -76,9 +86,16 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewMoleDetail.getPokemonDetail().observe(viewLifecycleOwner) {
             binding.txtCardTitle.text = it.name.capitalize()
             url = url + it.id.toString() + "/"
-            val x =
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + it.id + ".png"
-            Picasso.get().load(x).into(binding.imgCardImage)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                val x =
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + it.id + ".png"
+                Picasso.get().load(x).into(binding.imgCardImage)
+            }, 1500)
+
+            //val x =
+            //    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + it.id + ".png"
+            //Picasso.get().load(x).into(binding.imgCardImage)
 
 
         }
@@ -87,7 +104,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             binding.txtCardTitle.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
-                it.habitat.name.mapToDrawable(),
+                if(it.habitat == null ) R.drawable.ic_baseline_catching_pokemon_24 else it.habitat.name.mapToDrawable(),
                 0
             )
             binding.txtCardSubtitle.text = it.flavor_text_entries[0].flavor_text.replace("\n", " ")

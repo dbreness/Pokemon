@@ -10,9 +10,11 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_star_24"
         android:title="@string/menu_option_favorite_text"/>
+<!--
     <item
         android:id="@+id/homeFragment2"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_view_list_24"
         android:title="@string/menu_option_evolution_text"/>
+-->
 </menu>

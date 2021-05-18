@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.adapter.PokemonAdapter
 import com.example.bottomnavigation.databinding.FragmentListBinding
@@ -39,12 +40,12 @@ class FavoritesFragment: Fragment(R.layout.fragment_list) {
 
     private val disposable = CompositeDisposable()
 
- /*   override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Llamado al servidor
-        viewModel.makeAPIRequestList()
-    }*/
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -207,6 +208,7 @@ class FavoritesFragment: Fragment(R.layout.fragment_list) {
             adapter.pokemons = it
             adapter.pokemonsFavorites = it
             binding.listEmpty.visibility = if (it.isEmpty()) VISIBLE else GONE
+            binding.progressBar.visibility = GONE
         }
 
         //Suscribirse al evento para la busqueda al escribir sobre inputEditText
