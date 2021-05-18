@@ -5,6 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -199,10 +201,12 @@ class FavoritesFragment: Fragment(R.layout.fragment_list) {
         binding.PokemonRecyclerView.adapter = adapter
 
 
+
         viewModel.getPokemonList().observe(viewLifecycleOwner){
-            adapter.pokemons = it
             adapter.pokemonsList = it
+            adapter.pokemons = it
             adapter.pokemonsFavorites = it
+            binding.listEmpty.visibility = if (it.isEmpty()) VISIBLE else GONE
         }
 
         //Suscribirse al evento para la busqueda al escribir sobre inputEditText
