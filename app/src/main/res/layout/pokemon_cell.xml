@@ -22,8 +22,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="25dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_baseline_star_border_24" />
+            app:srcCompat="@android:drawable/btn_star_big_off" />
 
         <ImageButton
             android:id="@+id/detailsButton"

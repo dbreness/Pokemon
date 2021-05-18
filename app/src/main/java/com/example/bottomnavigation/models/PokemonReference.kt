@@ -1,4 +1,11 @@
 package com.example.bottomnavigation.models
 
-data class PokemonReference (val name: String, val url: String){
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class PokemonReference (
+    @PrimaryKey val name: String,
+    val url: String,
+    val isFavorite: Boolean = false){
 }

@@ -32,4 +32,12 @@
         android:name="com.example.bottomnavigation.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/favoritesFragment2"
+        android:name="com.example.bottomnavigation.fragments.FavoritesFragment"
+        android:label="FavoritesFragment" >
+        <action
+            android:id="@+id/action_favoritesFragment2_to_detailFragment2"
+            app:destination="@id/detailFragment2" />
+    </fragment>
 </navigation>

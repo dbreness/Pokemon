@@ -8,7 +8,7 @@
     <string name="card_secondary_action">card_action</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menu_option_favorite_text">Favorite</string>
+    <string name="menu_option_favorite_text">Favorites</string>
     <string name="menu_option_home_text">Pokémon</string>
     <string name="menu_option_evolution_text">Evolution</string>
     <string name="hintEmailText">Email</string>
