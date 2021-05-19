@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.get
@@ -19,8 +21,6 @@ import androidx.transition.TransitionInflater
 import com.example.bottomnavigation.R
 import com.example.bottomnavigation.databinding.FragmentDetailBinding
 import com.example.bottomnavigation.extensions.mapToDrawable
-import com.example.bottomnavigation.models.EvolutionChain
-import com.example.bottomnavigation.models.EvolutionChainResponse
 import com.example.bottomnavigation.viewmodels.PokemonDBViewModel
 import com.example.bottomnavigation.viewmodels.PokemonDetailViewModel
 import com.jakewharton.rxbinding4.view.clicks
@@ -31,6 +31,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import com.bumptech.glide.Glide
 import android.os.Handler
 import android.os.Looper
+import com.example.bottomnavigation.models.*
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -87,6 +88,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             binding.txtCardTitle.text = it.name.capitalize()
             url = url + it.id.toString() + "/"
 
+            val types : List<PokemonType> = it.types
+
+            binding.imgType1.setImageResource(types[0].type.name.mapToDrawable())
+            if (types.size > 1){
+                binding.imgType2.setImageResource(types[1].type.name.mapToDrawable())
+            }
+
             Handler(Looper.getMainLooper()).postDelayed({
                 val x =
                     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + it.id + ".png"
@@ -101,24 +109,33 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
 
         viewMoleDetail.getPokemonSpecie().observe(viewLifecycleOwner) {
-            binding.txtCardTitle.setCompoundDrawablesWithIntrinsicBounds(
+/*            binding.txtCardTitle.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 if(it.habitat == null ) R.drawable.ic_baseline_catching_pokemon_24 else it.habitat.name.mapToDrawable(),
                 0
-            )
+            )*/
+            binding.imageLegendary.visibility = if (it.is_legendary) VISIBLE else GONE
+
             binding.txtCardSubtitle.text = it.flavor_text_entries[0].flavor_text.replace("\n", " ")
             binding.txtCardDescription.text =
                 it.flavor_text_entries[7].flavor_text.replace("\n", " ")
+
+/*
             if (it.evolves_from_species != null)
                 binding.btnCardActionPrimary.text = it.evolves_from_species.name
             else
                 binding.btnCardActionPrimary.text = "No tiene"
+*/
+
+            binding.txtHabitat.text = "Hábitat: " + it.habitat.name.capitalize()
+            binding.imgHabitat.setImageResource(if(it.habitat == null ) R.drawable.ic_baseline_catching_pokemon_24 else it.habitat.name.mapToDrawable())
 
             val id = it.evolution_chain.url.dropLast(1).split("/").last()
             viewMoleDetail.makeAPIRequestEvolutionChain(id)
         }
 
+/*
         binding.btnCardActionPrimary.clicks()
             .subscribe{
                 val text = binding.btnCardActionPrimary.text
@@ -128,6 +145,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
 
             }
+*/
 
         viewMoleDetail.getEvolutionChain().observe(viewLifecycleOwner){
             val pokemons = getEvolutionList(it.chain)
@@ -150,8 +168,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             .subscribe {
                 dbViewModel.addPokemon(binding.txtCardTitle.text.toString().decapitalize(), url)
              }
-
-
 
     }
 

@@ -2,7 +2,7 @@ package com.example.bottomnavigation.models
 
 import retrofit2.http.Url
 
-data class Pokemon(val id: Int, val name: String, val height: Int, val weight: Int) {
+data class Pokemon(val id: Int, val name: String, val height: Int, val weight: Int, val types: List<PokemonType>) {
 
 }
 
@@ -28,6 +28,12 @@ data class Color(val name: String){
 }
 
 data class Habitat(val name: String){
+
+}
+
+data class PokemonType (val slot: Int, val type: Type)
+
+data class Type(val name: String){
 
 }
 

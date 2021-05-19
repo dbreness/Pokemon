@@ -17,4 +17,7 @@
     <string name="txtTitleDummy">In process</string>
     <string name="search_hint">Buscar</string>
     <string name="widgetTitle">No se encontraron resultados</string>
+    <string name="habitat">Hábitat</string>
+    <string name="preevolucion">Pre-Evolución</string>
+    <string name="evoluciones">Cadena de Evolución</string>
 </resources>
