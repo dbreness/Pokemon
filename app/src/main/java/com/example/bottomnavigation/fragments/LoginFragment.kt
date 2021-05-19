@@ -1,5 +1,6 @@
 package com.example.bottomnavigation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,23 +14,28 @@ import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import android.content.SharedPreferences
 
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private var _binding : FragmentLoginBinding? = null
     private val binding  get() = _binding!!
-
     private val disposable = CompositeDisposable()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
+
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +57,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
                     findNavController().navigate(action)
                 }
+
         )
+
     }
 
     override fun onDestroyView() {
@@ -59,5 +67,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         disposable.clear()
         _binding = null
     }
+
 
 }
